@@ -1,7 +1,7 @@
 const app = Vue.createApp({
   data() {
     return {
-      randomCorgi: "https://source.unsplash.com/300x300/?corgi",
+      randomCorgi: "/corgi.jpg",
       isCorgiShown: false,
       isCorgiLoading: false,
     };
@@ -14,14 +14,29 @@ const app = Vue.createApp({
         if (!this.isCorgiShown) {
           this.isCorgiLoading = true;
           console.log("changing...");
-
-          fetch("https://source.unsplash.com/300x300/?corgi").then((res) => {
-            console.log(res.url);
-            this.randomCorgi = res.url;
-            this.isCorgiLoading = false;
-          });
+          this.fetchCorgi();
         }
       }
+    },
+    fetchCorgi() {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+      fetch("https://source.unsplash.com/300x300/?corgi", {
+        signal: controller.signal,
+      })
+        .then((res) => {
+          console.log(res.url);
+          this.randomCorgi = res.url;
+          clearTimeout(timeoutId);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log("FETCH REQUEST ABORTED");
+        })
+        .finally(() => {
+          this.isCorgiLoading = false;
+        });
     },
   },
   mounted() {
