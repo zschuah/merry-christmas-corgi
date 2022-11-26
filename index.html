@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="/tree_icon.png" />
+    <meta name="description" content="Click to see what's behind the tree!" />
+    <meta property="og:image" content="/tree_icon.png" />
+    <link rel="apple-touch-icon" href="/tree_icon.png" />
+    <title>Merry Christmas Corgi</title>
+    <!-- VUE -->
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="app.js" defer></script>
+    <!-- BOOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-danger text-white">
+    <section id="vue-mount">
+      <div class="container">
+        <!-- description row -->
+        <div class="row text-center">
+          <div class="col-xs-6">
+            <h1 class="display-1">
+              Merry Christmas!!!
+              <img src="/tree_icon.png" height="50" alt="tree-icon" />
+            </h1>
+            <p>
+              Click to see what's behind the tree! A different one will appear
+              each time :D
+            </p>
+          </div>
+        </div>
+
+        <!-- corgi row -->
+        <div class="row justify-content-center">
+          <div class="col-xs-6">
+            <div class="scene">
+              <div
+                class="card bg-danger"
+                :class="{'is-flipped': isCorgiShown}"
+                @click="changeCorgi"
+              >
+                <div class="card__face card__face--front">
+                  <img
+                    class="img-fluid"
+                    src="/tree_photo.jpeg"
+                    alt="tree-photo"
+                  />
+                </div>
+                <div class="card__face card__face--back">
+                  <img class="img-fluid" :src="randomCorgi" alt="corgi" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- message row -->
+        <div class="row text-center">
+          <div class="col-xs-12">
+            <p>
+              I kinda got carried away with this one HAHA
+              <img
+                src="/laugh_cry_emoji.png"
+                alt="laugh-cry-emoji"
+                height="20"
+              />
+              Hope you like it!
+            </p>
+            <p>{{isCorgiLoading ? "Loading..." : "Ready!"}}</p>
+          </div>
+        </div>
+
+        <!-- END OF ROWS -->
+      </div>
+
+      <footer class="bg-success fixed-bottom pb-1">
+        <div class="container">
+          Copyright © 2022 zschuah. All Rights Reserved.
+        </div>
+      </footer>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
