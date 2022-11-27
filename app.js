@@ -2,36 +2,67 @@ const app = Vue.createApp({
   data() {
     return {
       randomCorgi: "images/corgi.jpg",
+      corgiURL: "https://api.unsplash.com/photos/random?query=corgi&count=30",
       isCorgiShown: false,
       isCorgiLoading: false,
+      corgiList: [],
     };
   },
   methods: {
+    generateRandomInteger(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
     changeCorgi() {
       if (!this.isCorgiLoading) {
         this.isCorgiShown = !this.isCorgiShown;
 
-        if (!this.isCorgiShown) {
+        if (this.isCorgiShown) {
           this.isCorgiLoading = true;
           console.log("changing...");
-          this.fetchCorgi();
+
+          if (this.corgiList.length === 0) {
+            console.log("fetching...");
+            this.fetchCorgiList();
+          } else {
+            const randInt = this.generateRandomInteger(0, 29);
+            this.randomCorgi = this.corgiList[randInt];
+            this.isCorgiLoading = false;
+
+            console.log({ randInt, image: this.randomCorgi });
+          }
+
+          // this.randomCorgi = res.url;
         }
       }
     },
-    fetchCorgi() {
+    fetchCorgiList() {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      fetch("https://source.unsplash.com/300x300/?corgi", {
+      fetch(this.corgiURL, {
         signal: controller.signal,
+        headers: {
+          Authorization:
+            "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg",
+        },
       })
         .then((res) => {
-          console.log(res.url);
-          this.randomCorgi = res.url;
+          const rateLimitRemaining = res.headers.get("X-Ratelimit-Remaining");
+          console.log({ rateLimitRemaining });
           clearTimeout(timeoutId);
+          return res.json();
+        })
+        .then((json) => {
+          console.log(json);
+          //AVAILABLE SIZES: full, raw, regular, small, small_s3, thumb
+          console.log(json[0].urls.small);
+          console.dir(json.map((item) => item.urls.small));
+
+          this.corgiList = json.map((item) => item.urls.small);
+          // this.randomCorgi = res.url;
         })
         .catch((error) => {
-          console.log(error);
+          console.log({ error });
           console.log("FETCH REQUEST ABORTED");
         })
         .finally(() => {
