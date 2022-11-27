@@ -1,7 +1,7 @@
 const app = Vue.createApp({
   data() {
     return {
-      randomCorgi: "/corgi.jpg",
+      randomCorgi: "images/corgi.jpg",
       isCorgiShown: false,
       isCorgiLoading: false,
     };
