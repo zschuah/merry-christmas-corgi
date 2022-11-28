@@ -2,6 +2,7 @@ const UNSPLASH_API_URL =
   "https://api.unsplash.com/photos/random?query=corgi&count=30";
 
 //THIS NEEDS TO BE HIDDEN BEFORE DEPLOYING TO NETLIFY
+//THIS SHOULD WORK WITH process.env.UNSPLASH_API_ACCESS_KEY
 const UNSPLASH_API_ACCESS_KEY =
   "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg";
 
