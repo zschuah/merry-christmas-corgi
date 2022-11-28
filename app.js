@@ -1,8 +1,14 @@
+const UNSPLASH_API_URL =
+  "https://api.unsplash.com/photos/random?query=corgi&count=30";
+
+//THIS NEEDS TO BE HIDDEN BEFORE DEPLOYING TO NETLIFY
+const UNSPLASH_API_ACCESS_KEY =
+  "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg";
+
 const app = Vue.createApp({
   data() {
     return {
       randomCorgi: "images/corgi.jpg",
-      corgiURL: "https://api.unsplash.com/photos/random?query=corgi&count=30",
       isCorgiShown: false,
       isCorgiLoading: false,
       corgiList: [],
@@ -45,12 +51,9 @@ const app = Vue.createApp({
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-      fetch(this.corgiURL, {
+      fetch(UNSPLASH_API_URL, {
         signal: controller.signal,
-        headers: {
-          Authorization:
-            "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg",
-        },
+        headers: { Authorization: UNSPLASH_API_ACCESS_KEY },
       })
         .then((res) => {
           const rateLimitRemaining = res.headers.get("X-Ratelimit-Remaining");
