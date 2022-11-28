@@ -12,26 +12,32 @@ const app = Vue.createApp({
     generateRandomInteger(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     },
+    setRandomCorgi() {
+      setTimeout(() => {
+        const randInt = this.generateRandomInteger(0, 29);
+        this.randomCorgi = this.corgiList[randInt];
+        this.isCorgiLoading = false;
+        console.log({ randInt, image: this.randomCorgi });
+      }, 1000);
+    },
     changeCorgi() {
+      //Prevent the user from flipping the Christmas tree when corgi is still loading
       if (!this.isCorgiLoading) {
         this.isCorgiShown = !this.isCorgiShown;
 
-        if (this.isCorgiShown) {
+        //Load the corgi BEHIND the Christmas tree
+        if (!this.isCorgiShown) {
           this.isCorgiLoading = true;
           console.log("changing...");
 
+          //Fetch from the API ONLY if the array is empty
+          //ELSE just take from the array
           if (this.corgiList.length === 0) {
             console.log("fetching...");
             this.fetchCorgiList();
           } else {
-            const randInt = this.generateRandomInteger(0, 29);
-            this.randomCorgi = this.corgiList[randInt];
-            this.isCorgiLoading = false;
-
-            console.log({ randInt, image: this.randomCorgi });
+            this.setRandomCorgi();
           }
-
-          // this.randomCorgi = res.url;
         }
       }
     },
@@ -59,13 +65,11 @@ const app = Vue.createApp({
           console.dir(json.map((item) => item.urls.small));
 
           this.corgiList = json.map((item) => item.urls.small);
-          // this.randomCorgi = res.url;
+          this.setRandomCorgi();
         })
         .catch((error) => {
           console.log({ error });
           console.log("FETCH REQUEST ABORTED");
-        })
-        .finally(() => {
           this.isCorgiLoading = false;
         });
     },
