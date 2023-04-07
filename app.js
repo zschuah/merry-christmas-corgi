@@ -1,5 +1,7 @@
 const UNSPLASH_API_URL =
   "https://api.unsplash.com/photos/random?query=corgi&count=30";
+const UNSPLASH_API_KEY =
+  "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg";
 
 const app = Vue.createApp({
   data() {
@@ -49,10 +51,7 @@ const app = Vue.createApp({
 
       fetch(UNSPLASH_API_URL, {
         signal: controller.signal,
-        headers: {
-          Authorization:
-            "Client-ID 9ZOedTljfoArOknCQ-E2fFpVh51vpSyziyp8gHqrVZg",
-        },
+        headers: { Authorization: UNSPLASH_API_KEY },
       })
         .then((res) => {
           const rateLimitRemaining = res.headers.get("X-Ratelimit-Remaining");
