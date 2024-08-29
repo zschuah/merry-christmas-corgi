@@ -61,11 +61,13 @@ const app = Vue.createApp({
         })
         .then((json) => {
           console.log(json);
-          //AVAILABLE SIZES: full, raw, regular, small, small_s3, thumb
-          console.log(json[0].urls.small);
-          console.dir(json.map((item) => item.urls.small));
 
-          this.corgiList = json.map((item) => item.urls.small);
+          //AVAILABLE SIZES: full, raw, regular, small, small_s3, thumb
+          const IMAGE_SIZE = "regular";
+          console.log(json[0].urls[IMAGE_SIZE]);
+          console.dir(json.map((item) => item.urls[IMAGE_SIZE]));
+          this.corgiList = json.map((item) => item.urls[IMAGE_SIZE]);
+
           this.setRandomCorgi();
         })
         .catch((error) => {
